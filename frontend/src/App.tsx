@@ -1,12 +1,14 @@
 import "./App.css";
+import AddAuthor from "./pages/AddAuthor";
+import AddPublication from "./pages/AddPublication";
 
 function App() {
   return (
-    <div>
-      <center>
-        <h1>DBS project</h1>
-      </center>
-    </div>
+    <>
+      <h1>DBS project</h1>
+      <AddPublication />
+      <AddAuthor />
+    </>
   );
 }
 
