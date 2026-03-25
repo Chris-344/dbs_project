@@ -3,7 +3,6 @@
   margin: 0;
 }
 
-/* Shared form styles */
 .form-group {
   margin-bottom: 20px;
   display: flex;
@@ -57,7 +56,6 @@ button:active {
   background-color: #2a5098;
 }
 
-/* Container styles */
 .add-author-container,
 .add-publication-container {
   max-width: 600px;
