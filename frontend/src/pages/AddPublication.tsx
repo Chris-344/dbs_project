@@ -2,7 +2,7 @@ function AddPublication() {
   return (
     <div className="add-publication-container">
       <h2>Add Publication</h2>
-      <form action="" method="post">
+      <form  method="get">
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input type="text" id="title" placeholder="Enter publication title" />

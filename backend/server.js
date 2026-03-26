@@ -1,15 +1,15 @@
-import express from 'express';
-import cors from 'cors';
+const express=require('express')
+const cors=require("cors")
 require('dotenv').config();
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
 
 const dbConfig = {
   user: "SYSTEM",
-  password: "yourpassword",
+  password: "asdf",
   connectString: "localhost:1521/XEPDB1"
 };
 
@@ -105,5 +105,3 @@ app.get("/api/search", async (req, res) => {
 });
 
 app.listen(5000, () => console.log("Backend running on port 5000"));
-
-
