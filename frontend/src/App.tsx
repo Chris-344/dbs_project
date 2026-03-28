@@ -1,16 +1,17 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import ReadAuthors from "./pages/ReadAuthors";
 import AddAuthor from "./pages/AddAuthor";
 import AddPublication from "./pages/AddPublication";
-import ReadAuthors from "./pages/ReadAuthors";
-
+import "./App.css";
 function App() {
   return (
-    <>
-      <h1>Publication Listing Service</h1>
-      <AddPublication />
-      <AddAuthor />
-      <ReadAuthors />
-    </>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<ReadAuthors />} />
+          <Route path="/add-author" element={<AddAuthor />} />
+          <Route path="/add-publication" element={<AddPublication />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 

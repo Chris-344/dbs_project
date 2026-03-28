@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function AddAuthor() {
   const [formData, setFormData] = useState({
@@ -32,6 +33,7 @@ function AddAuthor() {
 
   return (
     <div className="add-author-container">
+     <Link to="/">Read Authors</Link> <Link to="/add-publication">Add Publication</Link>  <Link to="/add-author">Add Authors</Link>
       <h2>Add Author</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
 function AddPublication() {
   return (
     <div className="add-publication-container">
+      <Link to='/'>Read authors</Link>{" "}
+      <Link to="/add-publication">Add Publication</Link>{" "}
+      <Link to="/add-author">Add Authors</Link>
+
       <h2>Add Publication</h2>
-      <form  method="get">
+      <form method="get">
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input type="text" id="title" placeholder="Enter publication title" />
