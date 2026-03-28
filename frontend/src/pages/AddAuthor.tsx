@@ -2,10 +2,20 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function AddAuthor() {
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    institution: "",
+    dept: "",
+    email: "",
+    address: "",
+    homepage: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("/api/search", formData);
+      await axios.post("http://localhost:5000/api/search", formData);
+
     } catch (err) {
       console.error(err);
     } finally {
@@ -19,15 +29,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       });
     }
   };
-
-  const [formData, setFormData] = useState({
-    name: "",
-    institution: "",
-    dept: "",
-    email: "",
-    address: "",
-    homepage: "",
-  });
 
   return (
     <div className="add-author-container">
