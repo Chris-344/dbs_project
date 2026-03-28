@@ -1,6 +1,7 @@
 import "./App.css";
 import AddAuthor from "./pages/AddAuthor";
 import AddPublication from "./pages/AddPublication";
+import ReadAuthors from "./pages/ReadAuthors";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <h1>Publication Listing Service</h1>
       <AddPublication />
       <AddAuthor />
+      <ReadAuthors />
     </>
   );
 }
