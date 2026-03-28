@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function AddAuthor() {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: "",
     institution: "",
@@ -16,115 +17,68 @@ function AddAuthor() {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/api/search", formData);
-
     } catch (err) {
       console.error(err);
     } finally {
-      setFormData({
-        name: "",
-        institution: "",
-        dept: "",
-        email: "",
-        address: "",
-        homepage: "",
-      });
+      setFormData({ name: "", institution: "", dept: "", email: "", address: "", homepage: "" });
     }
   };
 
+  const navLinks = [
+    { to: "/", label: "Authors" },
+    { to: "/add-author", label: "Add Author" },
+    { to: "/add-publication", label: "Add Publication" },
+  ];
+
+  const fields = [
+    { id: "name", label: "Name", placeholder: "Enter author name" },
+    { id: "institution", label: "Institution", placeholder: "Enter author institution" },
+    { id: "dept", label: "Department", placeholder: "Enter author department" },
+    { id: "email", label: "Email", placeholder: "Enter author email" },
+    { id: "address", label: "Address", placeholder: "Enter author address" },
+    { id: "homepage", label: "Homepage", placeholder: "Enter author homepage" },
+  ];
+
   return (
-    <div className="add-author-container">
-     <Link to="/">Read Authors</Link> <Link to="/add-publication">Add Publication</Link>  <Link to="/add-author">Add Authors</Link>
-      <h2>Add Author</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="Name">Name</label>
-          <input
-            type="text"
-            id="Name"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData((formData) => ({ ...formData, name: e.target.value }))
-            }
-            placeholder="Enter author name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="Institution">Institution</label>
-          <input
-            type="text"
-            id="Institution"
-            value={formData.institution}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                institution: e.target.value,
-              }))
-            }
-            placeholder="Enter author institution"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="dept">dept</label>
-          <input
-            type="text"
-            id="dept"
-            value={formData.dept}
-            onChange={(e) =>
-              setFormData((formData) => ({ ...formData, dept: e.target.value }))
-            }
-            placeholder="Enter author dept"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">email</label>
-          <input
-            type="text"
-            id="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                email: e.target.value,
-              }))
-            }
-            placeholder="Enter author email"
-          />
-        </div>
+    <div className="page">
+      <nav className="nav">
+        <span className="nav-brand">ResearchDB</span>
+        {navLinks.map((link) => (
+          <Link
+            key={link.to}
+            to={link.to}
+            className={location.pathname === link.to ? "active" : ""}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
 
-        <div className="form-group">
-          <label htmlFor="address">address</label>
-          <input
-            type="text"
-            id="address"
-            value={formData.address}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                address: e.target.value,
-              }))
-            }
-            placeholder="Enter author address"
-          />
-        </div>
+      <div className="form-page">
+        <div className="form-heading">Add Author</div>
 
-        <div className="form-group">
-          <label htmlFor="homepage">homepage</label>
-          <input
-            type="text"
-            id="homepage"
-            value={formData.homepage}
-            onChange={(e) =>
-              setFormData((formData) => ({
-                ...formData,
-                homepage: e.target.value,
-              }))
-            }
-            placeholder="Enter author homepage"
-          />
-        </div>
+        <div className="form-card">
+          <form onSubmit={handleSubmit}>
+            {fields.map((field) => (
+              <div className="form-group" key={field.id}>
+                <label htmlFor={field.id}>{field.label}</label>
+                <input
+                  type="text"
+                  id={field.id}
+                  value={formData[field.id as keyof typeof formData]}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, [field.id]: e.target.value }))
+                  }
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
 
-        <button type="submit">Submit</button>
-      </form>
+            <hr className="form-divider" />
+            <button type="submit" className="submit-btn">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
