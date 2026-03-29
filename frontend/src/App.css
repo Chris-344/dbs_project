@@ -1,6 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap");
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,7 +11,7 @@
 body {
   background: #f4f1eb;
   color: #1a1a1a;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 /* ─── SHARED PAGE ─── */
@@ -29,7 +31,7 @@ body {
 }
 
 .nav-brand {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 13px;
   color: #c8b560;
   letter-spacing: 0.1em;
@@ -38,7 +40,7 @@ body {
 }
 
 .nav a {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
   color: #888;
   text-decoration: none;
@@ -50,11 +52,18 @@ body {
   text-transform: uppercase;
   border-bottom: 3px solid transparent;
   margin-bottom: -3px;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
-.nav a:hover { color: #f4f1eb; }
-.nav a.active { color: #c8b560; border-bottom-color: #c8b560; }
+.nav a:hover {
+  color: #f4f1eb;
+}
+.nav a.active {
+  color: #c8b560;
+  border-bottom-color: #c8b560;
+}
 
 /* ─── CONTENT WRAPPER ─── */
 .content {
@@ -62,10 +71,12 @@ body {
 }
 
 /* ─── READ AUTHORS: page header ─── */
-.page-header { margin-bottom: 28px; }
+.page-header {
+  margin-bottom: 28px;
+}
 
 .page-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 22px;
   font-weight: 500;
   color: #1a1a1a;
@@ -73,7 +84,7 @@ body {
 }
 
 .page-count {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
   color: #888;
   margin-top: 4px;
@@ -94,10 +105,12 @@ table {
   font-size: 13px;
 }
 
-thead tr { background: #1a1a1a; }
+thead tr {
+  background: #1a1a1a;
+}
 
 thead td {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   font-weight: 500;
   color: #c8b560;
@@ -112,13 +125,17 @@ tbody tr {
   border-bottom: 1px solid #ece8e0;
   transition: background 0.1s;
 }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #faf8f3; }
+tbody tr:last-child {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: #faf8f3;
+}
 
 tbody td {
   padding: 11px 16px;
   color: #2a2a2a;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   vertical-align: middle;
   border: none;
   max-width: 200px;
@@ -128,7 +145,7 @@ tbody td {
 }
 
 tbody td:first-child {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
   color: #888;
   width: 48px;
@@ -137,7 +154,7 @@ tbody td:first-child {
 .empty {
   text-align: center;
   padding: 60px 20px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 13px;
   color: #aaa;
 }
@@ -150,7 +167,7 @@ tbody td:first-child {
 }
 
 .form-heading {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 22px;
   font-weight: 500;
   color: #1a1a1a;
@@ -177,7 +194,7 @@ tbody td:first-child {
 }
 
 .form-group label {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   font-weight: 500;
   color: #888;
@@ -187,18 +204,22 @@ tbody td:first-child {
 }
 
 .form-group input {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-size: 14px;
   color: #1a1a1a;
   background: #faf8f3;
   border: 1px solid #d4cfc4;
   border-radius: 4px;
   padding: 10px 14px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
   outline: none;
 }
 
-.form-group input::placeholder { color: #bbb; }
+.form-group input::placeholder {
+  color: #bbb;
+}
 
 .form-group input:focus {
   border-color: #c8b560;
@@ -213,7 +234,7 @@ tbody td:first-child {
 }
 
 .submit-btn {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -224,9 +245,84 @@ tbody td:first-child {
   border-radius: 4px;
   padding: 12px 28px;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  transition:
+    background 0.15s,
+    transform 0.1s;
   width: 100%;
 }
 
-.submit-btn:hover { background: #b8a550; }
-.submit-btn:active { transform: scale(0.99); background: #a8953e; }
+.submit-btn:hover {
+  background: #b8a550;
+}
+.submit-btn:active {
+  transform: scale(0.99);
+  background: #a8953e;
+}
+
+/* ─── SEARCH PAGE ─── */
+.search-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.search-input {
+  flex: 1;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #faf8f3;
+  border: 1px solid #d4cfc4;
+  border-radius: 4px;
+  padding: 10px 14px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #c8b560;
+  box-shadow: 0 0 0 3px rgba(200, 181, 96, 0.15);
+  background: #fff;
+}
+
+.search-input::placeholder {
+  color: #bbb;
+}
+
+.search-btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  background: #c8b560;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+.search-btn:hover {
+  background: #b8a550;
+}
+.search-btn:active {
+  transform: scale(0.99);
+  background: #a8953e;
+}
+
+.search-label {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}

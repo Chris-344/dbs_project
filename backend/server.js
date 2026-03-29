@@ -46,7 +46,6 @@ app.get("/api/search", async (req, res) => {
   let conn;
   try {
     conn = await oracledb.getConnection(dbConfig);
-
     const result = await conn.execute(`SELECT * from authors`);
 
     res.json(result.rows);
@@ -63,5 +62,29 @@ app.get("/api/search", async (req, res) => {
     }
   }
 });
+
+app.get("/api/searchAuthorByName", async (req, res) => {
+  let conn;
+  const { author } = req.query;
+
+  try {
+    conn = await oracledb.getConnection(dbConfig);
+    const result = await conn.execute(`select * from authors where name=:a`, {
+      a: author,
+    });
+    res.send(result.rows)
+  } catch (e) {
+    console.error(e);
+  } finally {
+    if (conn) {
+      try {
+        await conn.close();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+});
+
 
 app.listen(5000, () => console.log("Backend running on port 5000"));

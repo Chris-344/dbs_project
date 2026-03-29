@@ -7,6 +7,7 @@ function AddPublication() {
     { to: "/", label: "Authors" },
     { to: "/add-author", label: "Add Author" },
     { to: "/add-publication", label: "Add Publication" },
+    { to: "/search-author", label: "Search Author" },
   ];
 
   return (
