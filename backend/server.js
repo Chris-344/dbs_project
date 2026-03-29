@@ -9,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 
 const dbConfig = {
-  user: "KRIS",
-  password: "qwerty",
-  connectString: "DESKTOP-5BKSE67:1521/XEPDB1",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONNECT_STRING,
 };
 
 app.post("/api/search", async (req, res) => {
@@ -71,6 +71,7 @@ app.get("/api/searchAuthorByName", async (req, res) => {
     conn = await oracledb.getConnection(dbConfig);
     const result = await conn.execute(`select * from authors where name=:a`, {
       a: author,
+    
     });
     res.send(result.rows)
   } catch (e) {
