@@ -1,24 +1,11 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../ReadAuthors.css";
 
-function ReadAuthors() {
-  const [authors, setAuthors] = useState([]);
+function Search() {
+  const [author, setAuthor] = useState("");
+  const [answer, setAnswer] = useState([]);
   const location = useLocation();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = "http://localhost:5000/api/search";
-      try {
-        const response = await axios.get(url);
-        setAuthors(response.data);
-      } catch (e) {
-        console.error("Fetch error:", e);
-      }
-    };
-    fetchData();
-  }, []);
 
   const navLinks = [
     { to: "/", label: "Authors" },
@@ -36,6 +23,15 @@ function ReadAuthors() {
     "Address",
     "Homepage",
   ];
+
+  async function getAuthors(authorName: String) {
+    let url = "http://localhost:5000/api/searchAuthorByName";
+    let arg = { params: { author: authorName } };
+
+    const res = await axios.get(url, arg);
+    setAnswer(res.data);
+    setAuthor("");
+  }
 
   return (
     <>
@@ -55,10 +51,29 @@ function ReadAuthors() {
 
         <div className="content">
           <div className="page-header">
-            <div className="page-title">Authors</div>
-            {authors.length > 0 && (
-              <div className="page-count">{authors.length} records</div>
-            )}
+            <div className="page-title">Search Author</div>
+          </div>
+
+          <label htmlFor="searchQueary" className="search-label">
+            Search by Name
+          </label>
+          <div className="search-container">
+            <input
+              id="searchQueary"
+              className="search-input"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              type="text"
+              placeholder="Enter author name"
+            />
+            <button
+              className="search-btn"
+              onClick={() => {
+                getAuthors(author);
+              }}
+            >
+              Search
+            </button>
           </div>
 
           <div className="table-wrap">
@@ -71,14 +86,14 @@ function ReadAuthors() {
                 </tr>
               </thead>
               <tbody>
-                {authors.length === 0 ? (
+                {answer.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="empty">
                       No authors found
                     </td>
                   </tr>
                 ) : (
-                  authors.map((ele, i) => (
+                  answer.map((ele, i) => (
                     <tr key={i}>
                       <td>{ele[0]}</td>
                       <td>{ele[1]}</td>
@@ -99,4 +114,4 @@ function ReadAuthors() {
   );
 }
 
-export default ReadAuthors;
+export default Search;

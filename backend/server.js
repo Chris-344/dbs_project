@@ -46,7 +46,6 @@ app.get("/api/search", async (req, res) => {
   let conn;
   try {
     conn = await oracledb.getConnection(dbConfig);
-
     const result = await conn.execute(`SELECT * from authors`);
 
     res.json(result.rows);
@@ -64,55 +63,29 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
-app.get("/api/publications/search", async (req, res) => {
+app.get("/api/searchAuthorByName", async (req, res) => {
   let conn;
-  const { title, institution, department } = req.query;
+  const { author } = req.query;
 
   try {
     conn = await oracledb.getConnection(dbConfig);
-
-    let query = `
-      SELECT DISTINCT 
-        p.PUB_ID, p.TITLE, p.YEAR, p.SOURCE, p.PAGE_FROM, p.PAGE_TO,
-        a.AUTHOR_ID, a.NAME, a.INSTITUTION, a.DEPARTMENT
-      FROM PUBLICATIONS p
-      LEFT JOIN AUTHOR_PUBLICATION ap ON p.PUB_ID = ap.PUB_ID
-      LEFT JOIN AUTHORS a ON ap.AUTHOR_ID = a.AUTHOR_ID
-      WHERE 1=1
-    `;
-
-    const bindings = {};
-
-    if (title) {
-      query += ` AND UPPER(p.TITLE) LIKE UPPER(:title)`;
-      bindings.title = `%${title}%`;
-    }
-
-    if (institution) {
-      query += ` AND UPPER(a.INSTITUTION) LIKE UPPER(:institution)`;
-      bindings.institution = `%${institution}%`;
-    }
-
-    if (department) {
-      query += ` AND UPPER(a.DEPARTMENT) LIKE UPPER(:department)`;
-      bindings.department = `%${department}%`;
-    }
-
-    const result = await conn.execute(query, bindings);
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    const result = await conn.execute(`select * from authors where name=:a`, {
+      a: author,
+    
+    });
+    res.send(result.rows)
+  } catch (e) {
+    console.error(e);
   } finally {
     if (conn) {
       try {
         await conn.close();
       } catch (e) {
-        console.error("Error closing connection:", e);
+        console.error(e);
       }
     }
   }
 });
+
 
 app.listen(5000, () => console.log("Backend running on port 5000"));
