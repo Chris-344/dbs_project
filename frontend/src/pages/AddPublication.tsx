@@ -1,7 +1,17 @@
+import axios from "axios";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function AddPublication() {
   const location = useLocation();
+  const [ids, setIds] = useState([]);
+
+  const [formData, setFormData] = useState({
+    authorId: "",
+    title: "",
+    year: "",
+    source: "",
+  });
 
   const navLinks = [
     { to: "/", label: "Authors" },
@@ -9,6 +19,29 @@ function AddPublication() {
     { to: "/add-publication", label: "Add Publication" },
     { to: "/search-author", label: "Search Author" },
   ];
+
+  const fields = [
+    { id: "title", label: "Title", placeholder: "Enter publication title" },
+    { id: "authorId", label: "Author ID", placeholder: "Enter author ID" },
+    { id: "year", label: "Year", placeholder: "Enter publication year" },
+    { id: "source", label: "Source", placeholder: "Enter publication source" },
+  ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/api/addPublication", formData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setFormData({
+        authorId: "",
+        title: "",
+        year: "",
+        source: "",
+      });
+    }
+  };
 
   return (
     <div className="page">
@@ -29,30 +62,29 @@ function AddPublication() {
         <div className="form-heading">Add Publication</div>
 
         <div className="form-card">
-          <form method="get">
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input type="text" id="title" placeholder="Enter publication title" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="authors">Authors</label>
-              <input type="text" id="authors" placeholder="Enter author names" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="year">Year</label>
-              <input type="text" id="year" placeholder="Enter publication year" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="source">Source</label>
-              <input type="text" id="source" placeholder="Enter publication source" />
-            </div>
+          <form onSubmit={handleSubmit}>
+            {fields.map((field) => (
+              <div className="form-group" key={field.id}>
+                <label htmlFor={field.id}>{field.label}</label>
+                <input
+                  type="text"
+                  id={field.id}
+                  value={formData[field.id as keyof typeof formData]}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [field.id]: e.target.value,
+                    }))
+                  }
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
 
             <hr className="form-divider" />
-
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" className="submit-btn">
+              Submit
+            </button>
           </form>
         </div>
       </div>

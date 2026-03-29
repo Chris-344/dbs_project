@@ -19,6 +19,7 @@ function AddAuthor() {
       await axios.post("http://localhost:5000/api/search", formData);
     } catch (err) {
       console.error(err);
+      alert("Error adding author");
     } finally {
       setFormData({ name: "", institution: "", dept: "", email: "", address: "", homepage: "" });
     }

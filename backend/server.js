@@ -31,6 +31,7 @@ app.post("/api/search", async (req, res) => {
     res.json({ message: "Author added" });
   } catch (e) {
     console.error(e);
+    res.status(500).json({ error: e.message });
   } finally {
     if (conn) {
       try {
