@@ -5,6 +5,8 @@ import AddAuthor from "./pages/AddAuthor";
 import AddPublication from "./pages/AddPublication";
 import "./App.css";
 import Search from "./pages/Search";
+import BorrowBook from "./pages/BorrowBook";
+import IssueHistory from "./pages/IssueHistory";
 import DisplayData from "./pages/DisplayData";
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -36,7 +38,8 @@ function App() {
           <Route path="/" element={<DisplayData />} />
           <Route path="/add-author" element={<AddAuthor />} />
           <Route path="/add-publication" element={<AddPublication />} />
-          <Route path="/search-author" element={<Search />} />
+          <Route path="/search-author" element={<BorrowBook />} />
+          <Route path="/issue-history" element={<IssueHistory />} />
         </Routes>
       </div>
     </BrowserRouter>

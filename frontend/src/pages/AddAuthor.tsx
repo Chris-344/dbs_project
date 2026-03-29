@@ -29,7 +29,8 @@ function AddAuthor() {
     { to: "/", label: "Authors" },
     { to: "/add-author", label: "Add Author" },
     { to: "/add-publication", label: "Add Publication" },
-    { to: "/search-author", label: "Search Author" },
+    { to: "/search-author", label: "Search & Borrow" },
+    { to: "/issue-history", label: "Issue History" },
   ];
 
   const fields = [
@@ -58,6 +59,7 @@ function AddAuthor() {
 
       <div className="form-page">
         <div className="form-heading">Add Author</div>
+        <p className="form-subtitle">Add new authors manually to build your publication database and connect them with research work.</p>
 
         <div className="form-card">
           <form onSubmit={handleSubmit}>
