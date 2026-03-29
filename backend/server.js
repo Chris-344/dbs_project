@@ -9,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 
 const dbConfig = {
-  user: "KRIS",
-  password: "qwerty",
-  connectString: "DESKTOP-5BKSE67:1521/XEPDB1",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONNECT_STRING,
 };
 
 app.post("/api/search", async (req, res) => {
@@ -48,6 +48,57 @@ app.get("/api/search", async (req, res) => {
     conn = await oracledb.getConnection(dbConfig);
 
     const result = await conn.execute(`SELECT * from authors`);
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  } finally {
+    if (conn) {
+      try {
+        await conn.close();
+      } catch (e) {
+        console.error("Error closing connection:", e);
+      }
+    }
+  }
+});
+
+app.get("/api/publications/search", async (req, res) => {
+  let conn;
+  const { title, institution, department } = req.query;
+
+  try {
+    conn = await oracledb.getConnection(dbConfig);
+
+    let query = `
+      SELECT DISTINCT 
+        p.PUB_ID, p.TITLE, p.YEAR, p.SOURCE, p.PAGE_FROM, p.PAGE_TO,
+        a.AUTHOR_ID, a.NAME, a.INSTITUTION, a.DEPARTMENT
+      FROM PUBLICATIONS p
+      LEFT JOIN AUTHOR_PUBLICATION ap ON p.PUB_ID = ap.PUB_ID
+      LEFT JOIN AUTHORS a ON ap.AUTHOR_ID = a.AUTHOR_ID
+      WHERE 1=1
+    `;
+
+    const bindings = {};
+
+    if (title) {
+      query += ` AND UPPER(p.TITLE) LIKE UPPER(:title)`;
+      bindings.title = `%${title}%`;
+    }
+
+    if (institution) {
+      query += ` AND UPPER(a.INSTITUTION) LIKE UPPER(:institution)`;
+      bindings.institution = `%${institution}%`;
+    }
+
+    if (department) {
+      query += ` AND UPPER(a.DEPARTMENT) LIKE UPPER(:department)`;
+      bindings.department = `%${department}%`;
+    }
+
+    const result = await conn.execute(query, bindings);
 
     res.json(result.rows);
   } catch (err) {
