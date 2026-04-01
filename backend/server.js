@@ -89,25 +89,4 @@ app.get("/api/searchAuthorByName", async (req, res) => {
   }
 });
 
-app.get("/api/publications", async (req, res) => {
-  let conn;
-  try {
-    conn = await oracledb.getConnection(dbConfig);
-    const result = await conn.execute(`SELECT * FROM publications`);
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  } finally {
-    if (conn) {
-      try {
-        await conn.close();
-      } catch (e) {
-        console.error("Error closing connection:", e);
-      }
-    }
-  }
-});
-
 app.listen(5000, () => console.log("Backend running on port 5000"));
