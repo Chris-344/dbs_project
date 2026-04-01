@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import NavigationBar from "./components/NavigationBar";
 
 function AddAuthor() {
-  const location = useLocation();
   const [formData, setFormData] = useState({
     id:"",
     name: "",
@@ -44,12 +43,6 @@ function AddAuthor() {
     }
   };
 
-  const navLinks = [
-    { to: "/", label: "Authors" },
-    { to: "/add-author", label: "Add Author" },
-    { to: "/add-publication", label: "Add Publication" },
-    { to: "/search-author", label: "Search Author" },
-  ];
 
   const fields = [
     { id: "id", label: "id", placeholder: "Enter author id" },
@@ -67,18 +60,7 @@ function AddAuthor() {
 
   return (
     <div className="page">
-      <nav className="nav">
-        <span className="nav-brand">ResearchDB</span>
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={location.pathname === link.to ? "active" : ""}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+    <NavigationBar/>
 
       <div className="form-page">
         <div className="form-heading">Add Author</div>

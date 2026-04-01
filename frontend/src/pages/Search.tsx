@@ -1,18 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import NavigationBar from "./components/NavigationBar";
 
 function Search() {
   const [author, setAuthor] = useState("");
   const [answer, setAnswer] = useState([]);
-  const location = useLocation();
-
-  const navLinks = [
-    { to: "/", label: "Authors" },
-    { to: "/add-author", label: "Add Author" },
-    { to: "/add-publication", label: "Add Publication" },
-    { to: "/search-author", label: "Search Author" },
-  ];
 
   const columns = [
     "ID",
@@ -36,18 +28,7 @@ function Search() {
   return (
     <>
       <div className="page">
-        <nav className="nav">
-          <span className="nav-brand">ResearchDB</span>
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={location.pathname === link.to ? "active" : ""}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+      <NavigationBar/>
 
         <div className="content">
           <div className="page-header">
