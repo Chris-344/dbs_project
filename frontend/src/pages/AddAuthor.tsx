@@ -5,23 +5,42 @@ import { Link, useLocation } from "react-router-dom";
 function AddAuthor() {
   const location = useLocation();
   const [formData, setFormData] = useState({
+    id:"",
     name: "",
     institution: "",
     dept: "",
     email: "",
-    address: "",
     homepage: "",
+    address: "",
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate required fields client-side
+    if (!formData.name || !formData.institution || !formData.dept) {
+      alert("Name, Institution, and Department are required.");
+      return;
+    }
+
     try {
-      await axios.post("http://localhost:5000/api/search", formData);
-    } catch (err) {
+      await axios.post("http://localhost:5000/api/addAuthor", formData);
+      alert("Author added successfully!");
+      setFormData({
+        id:"",
+        name: "",
+        institution: "",
+        dept: "",
+        email: "",
+        homepage: "",
+        address: "",
+      });
+    } catch (err: any) {
       console.error(err);
-      alert("Error adding author");
-    } finally {
-      setFormData({ name: "", institution: "", dept: "", email: "", address: "", homepage: "" });
+      // Show the actual server error message
+      alert(
+        "Error adding author: " + (err.response?.data?.error || err.message),
+      );
     }
   };
 
@@ -33,12 +52,17 @@ function AddAuthor() {
   ];
 
   const fields = [
+    { id: "id", label: "id", placeholder: "Enter author id" },
     { id: "name", label: "Name", placeholder: "Enter author name" },
-    { id: "institution", label: "Institution", placeholder: "Enter author institution" },
+    {
+      id: "institution",
+      label: "institution",
+      placeholder: "Enter author institution",
+    },
     { id: "dept", label: "Department", placeholder: "Enter author department" },
     { id: "email", label: "Email", placeholder: "Enter author email" },
     { id: "address", label: "Address", placeholder: "Enter author address" },
-    { id: "homepage", label: "Homepage", placeholder: "Enter author homepage" },
+    { id: "homepage", label: "homepage", placeholder: "Enter author homepage" },
   ];
 
   return (
@@ -69,7 +93,10 @@ function AddAuthor() {
                   id={field.id}
                   value={formData[field.id as keyof typeof formData]}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, [field.id]: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      [field.id]: e.target.value,
+                    }))
                   }
                   placeholder={field.placeholder}
                 />
@@ -77,7 +104,9 @@ function AddAuthor() {
             ))}
 
             <hr className="form-divider" />
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" className="submit-btn">
+              Submit
+            </button>
           </form>
         </div>
       </div>

@@ -9,7 +9,7 @@ function ReadAuthors() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "http://localhost:5000/api/search";
+      const url = "http://localhost:5000/api/authors";
       try {
         const response = await axios.get(url);
         setAuthors(response.data);
@@ -36,7 +36,7 @@ function ReadAuthors() {
           <div className="page-header">
             <div className="page-title">Authors</div>
             {authors.length > 0 && (
-              <div className="page-count">{authors.length} records</div>
+              <div className="page-count">{authors.length}records</div>
             )}
           </div>
 

@@ -7,7 +7,7 @@ function ReadPublication() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "http://localhost:5000/api/searchPublications";
+      const url = "http://localhost:5000/api/publications";
       try {
         const response = await axios.get(url);
         setPublication(response.data);

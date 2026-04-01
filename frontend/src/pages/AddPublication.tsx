@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 
 function AddPublication() {
   const location = useLocation();
-  const [ids, setIds] = useState([]);
 
   const [formData, setFormData] = useState({
     authorId: "",
@@ -21,8 +20,8 @@ function AddPublication() {
   ];
 
   const fields = [
-    { id: "title", label: "Title", placeholder: "Enter publication title" },
     { id: "authorId", label: "Author ID", placeholder: "Enter author ID" },
+    { id: "title", label: "Title", placeholder: "Enter publication title" },
     { id: "year", label: "Year", placeholder: "Enter publication year" },
     { id: "source", label: "Source", placeholder: "Enter publication source" },
   ];
