@@ -102,3 +102,32 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END link_author_book;
 /
+
+-- Procedure to return a book (delete from issued_books)
+CREATE OR REPLACE PROCEDURE return_book(
+    p_book_id IN NUMBER
+) AS
+    v_count NUMBER;
+BEGIN
+    -- Check if the book is currently issued
+    SELECT COUNT(*) INTO v_count
+    FROM ISSUED_BOOKS
+    WHERE BOOK_ID = p_book_id
+    AND RETURN_DATE IS NULL;
+    
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'No active issue record found for this book');
+    END IF;
+    
+    DELETE FROM ISSUED_BOOKS
+    WHERE BOOK_ID = p_book_id
+    AND RETURN_DATE IS NULL;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Book returned successfully');
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END return_book;
+/

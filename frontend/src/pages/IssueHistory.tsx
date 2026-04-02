@@ -31,7 +31,7 @@ function IssueHistory() {
       <NavigationBar />
       <div className="content">
         <div className="page-header">
-          <div className="page-title">Authors</div>
+          <div className="page-title">Issue History</div>
           {authors.length > 0 && (
             <div className="page-count">{authors.length} records</div>
           )}
