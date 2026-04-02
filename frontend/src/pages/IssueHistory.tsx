@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import NavigationBar from "./components/NavigationBar";
 import axios from "axios";
-
-function ReadAuthors() {
+function IssueHistory() {
   const [authors, setAuthors] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "http://localhost:5000/api/authors";
+      const url = "http://localhost:5000/api/issue-history";
       try {
         const response = await axios.get(url);
         setAuthors(response.data);
@@ -26,9 +26,9 @@ function ReadAuthors() {
     "Address",
     "Homepage",
   ];
-
   return (
     <>
+      <NavigationBar />
       <div className="content">
         <div className="page-header">
           <div className="page-title">Authors</div>
@@ -74,4 +74,4 @@ function ReadAuthors() {
   );
 }
 
-export default ReadAuthors;
+export default IssueHistory;

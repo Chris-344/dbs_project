@@ -28,12 +28,16 @@ function Search() {
   return (
     <>
       <div className="page">
-      <NavigationBar/>
+        <NavigationBar />
 
         <div className="content">
           <div className="page-header">
             <div className="page-title">Search Author</div>
-            <p className="page-subtitle">Find research authors in our database by name. Explore their institutions, departments, contact information, and published work.</p>
+            <p className="page-subtitle">
+              Find research authors in our database by name. Explore their
+              institutions, departments, contact information, and published
+              work.
+            </p>
           </div>
 
           <div className="search-section">
@@ -41,7 +45,9 @@ function Search() {
               <label htmlFor="searchQueary" className="search-label">
                 Search by Name
               </label>
-              <span className="search-hint">Enter the author's full or partial name to find their profile</span>
+              <span className="search-hint">
+                Enter the author's full or partial name to find their profile
+              </span>
             </div>
             <div className="search-container">
               <input
@@ -67,7 +73,10 @@ function Search() {
             {answer.length > 0 && (
               <div className="results-header">
                 <h3 className="results-title">Search Results</h3>
-                <span className="results-count">{answer.length} {answer.length === 1 ? "author" : "authors"} found</span>
+                <span className="results-count">
+                  {answer.length} {answer.length === 1 ? "author" : "authors"}{" "}
+                  found
+                </span>
               </div>
             )}
             <div className="table-wrap">
@@ -86,7 +95,9 @@ function Search() {
                         <div className="empty-content">
                           <div className="empty-icon">◎</div>
                           <div className="empty-title">No authors found</div>
-                          <div className="empty-message">Try searching with a different name or visit our Authors page to browse the complete directory.</div>
+                          <div className="empty-message">
+                            Try searching with a different name or visit our Authors page to browse the complete directory.
+                          </div>
                         </div>
                       </td>
                     </tr>

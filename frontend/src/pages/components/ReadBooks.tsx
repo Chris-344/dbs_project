@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./ReadAuthors.css";
 
 function ReadPublication() {
   const [publication, setPublication] = useState([]);

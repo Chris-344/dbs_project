@@ -1,5 +1,5 @@
 import ReadAuthors from "./components/ReadAuthors";
-import ReadPublication from "./components/ReadPublications";
+import ReadPublication from "./components/ReadBooks";
 import NavigationBar from "./components/NavigationBar";
 
 function DisplayData() {
