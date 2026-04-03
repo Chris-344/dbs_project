@@ -40,13 +40,14 @@ END add_book;
 
 -- Procedure to add a new student
 CREATE OR REPLACE PROCEDURE add_student(
+    p_student_id IN NUMBER,
     p_name IN VARCHAR2,
     p_email IN VARCHAR2 DEFAULT NULL,
     p_department IN VARCHAR2 DEFAULT NULL
 ) AS
 BEGIN
-    INSERT INTO STUDENTS (NAME, EMAIL, DEPARTMENT)
-    VALUES (p_name, p_email, p_department);
+    INSERT INTO STUDENTS (STUDENT_ID, NAME, EMAIL, DEPARTMENT)
+    VALUES (p_student_id, p_name, p_email, p_department);
     COMMIT;
     DBMS_OUTPUT.PUT_LINE('Student added successfully');
 EXCEPTION

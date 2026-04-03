@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 // import ReadAuthors from "./pages/ReadAuthors";
 import AddAuthor from "./pages/AddAuthor";
-import AddPublication from "./pages/AddPublication";
+import AddBook from "./pages/AddBook";
 import IssueHistory from "./pages/IssueHistory";
 import IssueBook from "./pages/Issue_book";
 import "./App.css";
@@ -42,7 +42,7 @@ function App() {
           <Route path="/" element={<DisplayData />} />
           <Route path="/add-author" element={<AddAuthor />} />
           <Route path="/add-student" element={<AddStudent />} />
-          <Route path="/add-publication" element={<AddPublication />} />
+          <Route path="/add-book" element={<AddBook />} />
           <Route path="/search-author" element={<Search />} />
           <Route path="/issue-history" element={<IssueHistory />} />
           <Route path="/issue-book" element={<IssueBook />} />

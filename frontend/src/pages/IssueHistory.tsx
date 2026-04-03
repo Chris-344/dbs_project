@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "./components/NavigationBar";
 import axios from "axios";
+import { endpoint } from "../util/util";
 function IssueHistory() {
   const [authors, setAuthors] = useState([]);
-
+  const formatDate = (value: string | null) => {
+    if (!value) return "Not Returned";
+    return new Date(value).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
   useEffect(() => {
     const fetchData = async () => {
-      const url = "http://localhost:5000/api/issue-history";
+      const url = endpoint.issueHistory;
       try {
         const response = await axios.get(url);
         setAuthors(response.data);
@@ -17,15 +25,7 @@ function IssueHistory() {
     fetchData();
   }, []);
 
-  const columns = [
-    "ID",
-    "Name",
-    "Institution",
-    "Department",
-    "Email",
-    "Address",
-    "Homepage",
-  ];
+  const columns = ["ID", "Name", "Institution", "issue date", "return date"];
   return (
     <>
       <NavigationBar />
@@ -49,7 +49,7 @@ function IssueHistory() {
             <tbody>
               {authors.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="empty">
+                  <td colSpan={5} className="empty">
                     No authors found
                   </td>
                 </tr>
@@ -59,10 +59,8 @@ function IssueHistory() {
                     <td>{ele[0]}</td>
                     <td>{ele[1]}</td>
                     <td>{ele[2]}</td>
-                    <td>{ele[3]}</td>
-                    <td>{ele[4]}</td>
-                    <td>{ele[5]}</td>
-                    <td>{ele[6]}</td>
+                    <td>{formatDate(ele[3])}</td>
+                    <td>{formatDate(ele[4])}</td>
                   </tr>
                 ))
               )}

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import NavigationBar from "./components/NavigationBar";
+import { endpoint } from "../util/util";
 
-function AddPublication() {
+function AddBook() {
   const [formData, setFormData] = useState({
     authorId: "",
     title: "",
@@ -20,7 +21,7 @@ function AddPublication() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/addPublication", formData);
+      await axios.post(endpoint.addBook, formData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -71,4 +72,4 @@ function AddPublication() {
   );
 }
 
-export default AddPublication;
+export default AddBook;

@@ -11,3 +11,6 @@ ALTER USER react_user QUOTA UNLIMITED ON USERS;
 
 -- (Optional) Grant specific table rights
 GRANT CREATE SESSION, CREATE TABLE TO react_user;
+
+-- login to the new user
+sqlplus user_name/password@localhost:1521/XEPDB1

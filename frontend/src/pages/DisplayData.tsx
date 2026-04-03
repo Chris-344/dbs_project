@@ -1,6 +1,7 @@
 import ReadAuthors from "./components/ReadAuthors";
 import ReadPublication from "./components/ReadBooks";
 import NavigationBar from "./components/NavigationBar";
+import ReadStudents from "./components/ReadStudents";
 
 function DisplayData() {
   return (
@@ -9,6 +10,7 @@ function DisplayData() {
         <NavigationBar />
         <ReadAuthors />
         <ReadPublication />
+        <ReadStudents />
       </div>
     </>
   );

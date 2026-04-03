@@ -1,14 +1,13 @@
--- Trigger to log book issue history
 CREATE OR REPLACE TRIGGER issue_history_log
-AFTER INSERT ON ISSUED_BOOKS
+AFTER DELETE ON ISSUED_BOOKS
 FOR EACH ROW
 BEGIN
-    INSERT INTO ISSUE_HISTORY (BOOK_ID, STUDENT_ID)
-    VALUES (:NEW.BOOK_ID, :NEW.STUDENT_ID);
-    
-    DBMS_OUTPUT.PUT_LINE('Issue history logged for Student ID: ' || :NEW.STUDENT_ID || ' Book ID: ' || :NEW.BOOK_ID);
+    INSERT INTO ISSUE_HISTORY (BOOK_ID, STUDENT_ID, ISSUE_DATE, RETURN_DATE)
+    VALUES (:OLD.BOOK_ID, :OLD.STUDENT_ID, :OLD.ISSUE_DATE, SYSDATE);
+
+    DBMS_OUTPUT.PUT_LINE('Issue history logged for Student ID: ' || :OLD.STUDENT_ID || ' Book ID: ' || :OLD.BOOK_ID);
 EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Error logging issue history: ' || SQLERRM);
+        RAISE;
 END issue_history_log;
-/

@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { endpoint } from "../../util/util";
 
-function ReadPublication() {
-  const [publication, setPublication] = useState([]);
+function ReadStudents() {
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const url =endpoint.readBooks;
+      const url = endpoint.readStudent;
       try {
         const response = await axios.get(url);
-        setPublication(response.data);
+        setStudents(response.data);
       } catch (e) {
         console.error("Fetch error:", e);
       }
@@ -18,14 +18,14 @@ function ReadPublication() {
     fetchData();
   }, []);
 
-  const columns = ["ID", "Title", "Year", "Author id"];
+  const columns = ["ID", "Name", "Email", "Department"];
 
   return (
     <div className="content">
       <div className="page-header">
-        <div className="page-title">Books</div>
-        {publication.length > 0 && (
-          <div className="page-count">{publication.length} records</div>
+        <div className="page-title">Students</div>
+        {students.length > 0 && (
+          <div className="page-count">{students.length} records</div>
         )}
       </div>
       <div className="table-wrap">
@@ -38,14 +38,14 @@ function ReadPublication() {
             </tr>
           </thead>
           <tbody>
-            {publication.length === 0 ? (
+            {students.length === 0 ? (
               <tr>
                 <td colSpan={4} className="empty">
-                  No Book found
+                  No students found
                 </td>
               </tr>
             ) : (
-              publication.map((ele, i) => (
+              students.map((ele, i) => (
                 <tr key={i}>
                   <td>{ele[0]}</td>
                   <td>{ele[1]}</td>
@@ -61,4 +61,4 @@ function ReadPublication() {
   );
 }
 
-export default ReadPublication;
+export default ReadStudents;

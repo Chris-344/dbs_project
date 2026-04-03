@@ -4,7 +4,7 @@ function NavigationBar() {
   const navLinks = [
     // { to: "/", label: "Data" },
     { to: "/add-author", label: "Add Author" },
-    { to: "/add-publication", label: "Add Book" },
+    { to: "/add-book", label: "Add Book" },
     { to: "/add-student", label: "Add Student" },
     { to: "/search-author", label: "Search Author" },
     { to: "/issue-book", label: "Issue Book" },

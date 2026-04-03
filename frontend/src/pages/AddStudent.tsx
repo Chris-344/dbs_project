@@ -1,34 +1,37 @@
 import NavigationBar from "./components/NavigationBar";
 import { useState } from "react";
 import axios from "axios";
+import { endpoint } from "../util/util";
 
 function AddStudent() {
   const [formData, setFormData] = useState({
-    studentId: "",
+    id: "",
     name: "",
-    class: "",
-    section: "",
+    email: "",
+    department: "",
   });
 
   const fields = [
-    { id: "studentId", label: "Student Id", placeholder: "Enter student id" },
-    { id: "studentName", label: "Student Name", placeholder: "Enter student name" },
-    { id: "class", label: "Student Class", placeholder: "Enter student class" },
-    { id: "class", label: "Student Section", placeholder: "Enter student section" },
+    { id: "id", label: "Student ID", placeholder: "Enter student ID" },
+    { id: "name", label: "Student Name", placeholder: "Enter student name" },
+    { id: "email", label: "Email", placeholder: "Enter email" },
+    { id: "department", label: "Department", placeholder: "Enter department" },
   ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/addStudent", formData);
+      await axios.post(endpoint.addStudent, formData);
+      alert("Student added successfully!");
     } catch (err) {
       console.error(err);
+      alert("Error adding student");
     } finally {
       setFormData({
-        studentId: "",
+        id: "",
         name: "",
-        class: "",
-        section: "",
+        email: "",
+        department: "",
       });
     }
   };
