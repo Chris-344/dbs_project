@@ -1,15 +1,20 @@
+import axios from "axios";
+import { endpoint } from "../../util/util";
+
 interface Props {
   issuedBooks: any[];
+  onRefresh: () => void;
 }
 
-function ReadIssuedBooks({ issuedBooks }: Props) {
+function ReadIssuedBooks({ issuedBooks, onRefresh }: Props) {
   const columns = [
     "Borrow ID",
     "Book ID",
     "Student ID",
     "Issue Date",
-    "Return Date",
+    "Return Book",
   ];
+
   const formatDate = (value: string | null) => {
     if (!value) return "Not Returned";
     return new Date(value).toLocaleDateString("en-IN", {
@@ -19,16 +24,14 @@ function ReadIssuedBooks({ issuedBooks }: Props) {
     });
   };
 
-  const calculateReturnDate = (value: string | null) => {
-    if (!value) return "Not Returned";
-    const date = new Date(value);
-    date.setDate(date.getDate() + 14);
-    return date.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  async function handleDeletion(borrowId: number) {
+    try {
+      await axios.delete(`${endpoint.issuedBooks}/${borrowId}`);
+      onRefresh(); // re-fetch from parent after deletion
+    } catch (err) {
+      console.error("Error returning book:", err);
+    }
+  }
 
   return (
     <div className="content">
@@ -61,7 +64,11 @@ function ReadIssuedBooks({ issuedBooks }: Props) {
                   <td>{ele[1]}</td>
                   <td>{ele[2]}</td>
                   <td>{formatDate(ele[3])}</td>
-                  <td><button>Return book</button></td>
+                  <td>
+                    <button onClick={() => handleDeletion(ele[0])}>
+                      Return book
+                    </button>
+                  </td>
                 </tr>
               ))
             )}

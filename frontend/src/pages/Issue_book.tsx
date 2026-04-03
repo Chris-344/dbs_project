@@ -83,7 +83,7 @@ function Issue_book() {
             </div>
           </div>
         </div>
-        <ReadIssuedBooks issuedBooks={issuedBooks} />
+        <ReadIssuedBooks issuedBooks={issuedBooks} onRefresh={getIssuedBooks}/>
       </div>
     </>
   );

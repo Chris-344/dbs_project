@@ -224,12 +224,12 @@ app.post(endpoints.addStudent, async (req, res) => {
 app.post(endpoints.issueBook, async (req, res) => {
   let conn;
   const { bookId, studentId, issueDate, returnDate } = req.body;
-  
+
   if (!bookId || !studentId) {
     return res
       .status(400)
       .json({ error: "Book ID and Student ID are required." });
-  } 
+  }
 
   try {
     conn = await oracledb.getConnection(dbConfig);
@@ -306,6 +306,30 @@ app.get(endpoints.issueHistory, async (req, res) => {
     conn = await oracledb.getConnection(dbConfig);
     const result = await conn.execute(`SELECT * FROM issue_history`);
     res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  } finally {
+    if (conn) {
+      try {
+        await conn.close();
+      } catch (e) {
+        console.error("Error closing connection:", e);
+      }
+    }
+  }
+});
+
+app.delete(`${endpoints.issuedBooks}/:id`, async (req, res) => {
+  let conn;
+  try {
+    conn = await oracledb.getConnection(dbConfig);
+    await conn.execute(
+      `DELETE FROM issued_books WHERE borrow_id = :id`,
+      { id: req.params.id },
+      { autoCommit: true },
+    );
+    res.json({ message: "Book returned successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
