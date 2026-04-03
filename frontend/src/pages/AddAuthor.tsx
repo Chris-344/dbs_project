@@ -45,7 +45,6 @@ function AddAuthor() {
 
 
   const fields = [
-    { id: "id", label: "id", placeholder: "Enter author id" },
     { id: "name", label: "Name", placeholder: "Enter author name" },
     {
       id: "institution",

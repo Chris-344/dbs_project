@@ -61,7 +61,7 @@ function ReadIssuedBooks({ issuedBooks }: Props) {
                   <td>{ele[1]}</td>
                   <td>{ele[2]}</td>
                   <td>{formatDate(ele[3])}</td>
-                  <td>{calculateReturnDate(ele[3])}</td>
+                  <td><button>Return book</button></td>
                 </tr>
               ))
             )}
