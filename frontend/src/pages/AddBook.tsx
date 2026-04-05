@@ -14,7 +14,12 @@ function AddBook() {
   const fields = [
     { id: "authorId", label: "Author ID", placeholder: "Enter author ID" },
     { id: "title", label: "Title", placeholder: "Enter publication title" },
-    { id: "year", label: "Year", placeholder: "Enter publication year" },
+    {
+      id: "year",
+      label: "Year",
+      placeholder: "Enter publication year",
+      type: "number",
+    },
     { id: "source", label: "Source", placeholder: "Enter publication source" },
   ];
 
@@ -47,7 +52,7 @@ function AddBook() {
               <div className="form-group" key={field.id}>
                 <label htmlFor={field.id}>{field.label}</label>
                 <input
-                  type="text"
+                  type={field.type || "text"}
                   id={field.id}
                   value={formData[field.id as keyof typeof formData]}
                   onChange={(e) =>
@@ -56,6 +61,20 @@ function AddBook() {
                       [field.id]: e.target.value,
                     }))
                   }
+                  onKeyDown={(e) => {
+                    if (field.type === "number") {
+                      const allowed = [
+                        "Backspace",
+                        "Delete",
+                        "ArrowLeft",
+                        "ArrowRight",
+                        "Tab",
+                      ];
+                      if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
+                        e.preventDefault();
+                      }
+                    }
+                  }}
                   placeholder={field.placeholder}
                 />
               </div>
