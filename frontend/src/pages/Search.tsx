@@ -46,7 +46,7 @@ function Search() {
                 Search by Name
               </label>
               <span className="search-hint">
-                Enter the author's full or partial name to find their profile
+                Enter the author's full name to find their profile
               </span>
             </div>
             <div className="search-container">
