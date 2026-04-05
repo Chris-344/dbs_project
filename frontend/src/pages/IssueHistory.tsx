@@ -49,8 +49,8 @@ function IssueHistory() {
             <tbody>
               {authors.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="empty">
-                    No authors found
+                  <td colSpan={5}>
+                    <div className="empty">No authors found</div>
                   </td>
                 </tr>
               ) : (

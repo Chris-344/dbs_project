@@ -40,8 +40,8 @@ function ReadStudents() {
           <tbody>
             {students.length === 0 ? (
               <tr>
-                <td colSpan={4} className="empty">
-                  No students found
+                <td colSpan={4}>
+                  <div className="empty">No students found</div>
                 </td>
               </tr>
             ) : (

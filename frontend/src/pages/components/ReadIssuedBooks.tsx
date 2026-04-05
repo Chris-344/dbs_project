@@ -53,8 +53,8 @@ function ReadIssuedBooks({ issuedBooks, onRefresh }: Props) {
           <tbody>
             {issuedBooks.length === 0 ? (
               <tr>
-                <td colSpan={5} className="empty">
-                  No issued books found
+                <td colSpan={5}>
+                  <div className="empty">No issued books found</div>
                 </td>
               </tr>
             ) : (

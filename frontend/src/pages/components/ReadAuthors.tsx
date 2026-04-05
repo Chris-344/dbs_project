@@ -49,8 +49,8 @@ function ReadAuthors() {
             <tbody>
               {authors.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="empty">
-                    No authors found
+                  <td colSpan={7}>
+                    <div className="empty">No authors found</div>
                   </td>
                 </tr>
               ) : (

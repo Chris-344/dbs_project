@@ -40,8 +40,8 @@ function ReadPublication() {
           <tbody>
             {publication.length === 0 ? (
               <tr>
-                <td colSpan={4} className="empty">
-                  No Book found
+                <td colSpan={4}>
+                  <div className="empty">No Book found</div>
                 </td>
               </tr>
             ) : (
