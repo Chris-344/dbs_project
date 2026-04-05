@@ -7,6 +7,7 @@ function NavigationBar() {
     { to: "/add-book", label: "Add Book" },
     { to: "/add-student", label: "Add Student" },
     { to: "/search-author", label: "Search Author" },
+    { to: "/add-genre", label: "Add Genre" },
     { to: "/issue-book", label: "Issue Book" },
     { to: "/issue-history", label: "Issue history" },
   ];

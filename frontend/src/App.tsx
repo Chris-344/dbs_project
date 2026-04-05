@@ -6,9 +6,11 @@ import AddBook from "./pages/AddBook";
 import IssueHistory from "./pages/IssueHistory";
 import IssueBook from "./pages/Issue_book";
 import "./App.css";
+import AddGenre from "./pages/AddGenre"
 import Search from "./pages/Search";
 import DisplayData from "./pages/DisplayData";
 import AddStudent from "./pages/AddStudent";
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
@@ -43,6 +45,7 @@ function App() {
           <Route path="/add-author" element={<AddAuthor />} />
           <Route path="/add-student" element={<AddStudent />} />
           <Route path="/add-book" element={<AddBook />} />
+          <Route path="/add-genre" element={<AddGenre />} />
           <Route path="/search-author" element={<Search />} />
           <Route path="/issue-history" element={<IssueHistory />} />
           <Route path="/issue-book" element={<IssueBook />} />

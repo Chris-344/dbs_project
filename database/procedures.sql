@@ -18,26 +18,22 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END add_author;
 /
-
--- Procedure to add a new book
 CREATE OR REPLACE PROCEDURE add_book(
-    p_title IN VARCHAR2,
+    p_title     IN VARCHAR2,
     p_author_id IN NUMBER,
-    p_genre_id IN NUMBER,
-    p_year IN NUMBER DEFAULT NULL
+    p_genre_id  IN NUMBER DEFAULT NULL,
+    p_year      IN NUMBER DEFAULT NULL
 ) AS
 BEGIN
     INSERT INTO BOOKS (TITLE, AUTHOR_ID, GENRE_ID, YEAR)
     VALUES (p_title, p_author_id, p_genre_id, p_year);
     COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Book added successfully');
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+        RAISE;  -- re-raise so Node sees the actual error
 END add_book;
 /
-
 -- Procedure to add a new student
 CREATE OR REPLACE PROCEDURE add_student(
     p_student_id IN NUMBER,
@@ -131,4 +127,40 @@ EXCEPTION
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END return_book;
+/
+
+
+CREATE OR REPLACE PROCEDURE add_genre(
+    p_genre_name IN VARCHAR2,
+    p_book_id    IN NUMBER
+) AS
+    v_genre_id NUMBER;
+BEGIN
+    BEGIN
+        SELECT GENRE_ID INTO v_genre_id
+        FROM GENRE
+        WHERE UPPER(CATEGORY_NAME) = UPPER(p_genre_name)
+        AND ROWNUM = 1;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            INSERT INTO GENRE (CATEGORY_NAME)
+            VALUES (p_genre_name)
+            RETURNING GENRE_ID INTO v_genre_id;
+    END;
+
+    UPDATE BOOKS
+    SET GENRE_ID = v_genre_id
+    WHERE BOOK_ID = p_book_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20003, 'No book found with ID: ' || p_book_id);
+    END IF;
+
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE;
+END add_genre;
 /

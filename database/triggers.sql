@@ -11,3 +11,4 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error logging issue history: ' || SQLERRM);
         RAISE;
 END issue_history_log;
+/

@@ -14,12 +14,14 @@ function Search() {
     "Email",
     "Address",
     "Homepage",
+    "Book ID",
+    "Title",
+    "Year",
   ];
 
   async function getAuthors(authorName: String) {
     let url = "http://localhost:5000/api/searchAuthorByName";
     let arg = { params: { author: authorName } };
-
     const res = await axios.get(url, arg);
     setAnswer(res.data);
     setAuthor("");
@@ -29,17 +31,14 @@ function Search() {
     <>
       <div className="page">
         <NavigationBar />
-
         <div className="content">
           <div className="page-header">
             <div className="page-title">Search Author</div>
             <p className="page-subtitle">
               Find research authors in our database by name. Explore their
-              institutions, departments, contact information, and published
-              work.
+              institutions, departments, contact information, and published work.
             </p>
           </div>
-
           <div className="search-section">
             <div className="search-header">
               <label htmlFor="searchQueary" className="search-label">
@@ -68,14 +67,12 @@ function Search() {
               </button>
             </div>
           </div>
-
           <div className="table-section">
             {answer.length > 0 && (
               <div className="results-header">
                 <h3 className="results-title">Search Results</h3>
                 <span className="results-count">
-                  {answer.length} {answer.length === 1 ? "author" : "authors"}{" "}
-                  found
+                  {answer.length} {answer.length === 1 ? "result" : "results"} found
                 </span>
               </div>
             )}
@@ -91,12 +88,13 @@ function Search() {
                 <tbody>
                   {answer.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="empty">
+                      <td colSpan={10} className="empty">
                         <div className="empty-content">
                           <div className="empty-icon">◎</div>
                           <div className="empty-title">No authors found</div>
                           <div className="empty-message">
-                            Try searching with a different name or visit our Authors page to browse the complete directory.
+                            Try searching with a different name or visit our
+                            Authors page to browse the complete directory.
                           </div>
                         </div>
                       </td>
@@ -104,13 +102,16 @@ function Search() {
                   ) : (
                     answer.map((ele, i) => (
                       <tr key={i}>
-                        <td>{ele[0]}</td>
-                        <td>{ele[1]}</td>
-                        <td>{ele[2]}</td>
-                        <td>{ele[3]}</td>
-                        <td>{ele[4]}</td>
-                        <td>{ele[5]}</td>
-                        <td>{ele[6]}</td>
+                        <td>{ele[0]}</td>  {/* AUTHOR_ID */}
+                        <td>{ele[1]}</td>  {/* NAME */}
+                        <td>{ele[2]}</td>  {/* INSTITUTION */}
+                        <td>{ele[3]}</td>  {/* DEPARTMENT */}
+                        <td>{ele[4]}</td>  {/* EMAIL */}
+                        <td>{ele[5]}</td>  {/* ADDRESS */}
+                        <td>{ele[6]}</td>  {/* HOMEPAGE */}
+                        <td>{ele[7] ?? "—"}</td>  {/* BOOK_ID */}
+                        <td>{ele[8] ?? "No books"}</td>  {/* TITLE */}
+                        <td>{ele[9] ?? "—"}</td>  {/* PUBLISH_YEAR */}
                       </tr>
                     ))
                   )}

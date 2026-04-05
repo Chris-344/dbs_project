@@ -12,7 +12,10 @@ const endpoints = {
   addStudent: "/api/addStudent",
   readStudent:"/api/readStudent",
 
-  issueHistory:"/api/issuedHistory"
+  issueHistory:"/api/issuedHistory",
+  
+  addGenre:`/api/addGenre`,
+  readGenre:`/api/readGenre`
 };
 
 module.exports = { endpoints };

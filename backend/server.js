@@ -56,15 +56,26 @@ app.get(endpoints.getBooks, async (req, res) => {
     }
   }
 });
-
 app.get(endpoints.searchAuthor, async (req, res) => {
   let conn;
   const { author } = req.query;
-
   try {
     conn = await oracledb.getConnection(dbConfig);
     const result = await conn.execute(
-      `SELECT * FROM authors WHERE UPPER(name) = UPPER(:a)`,
+      `SELECT 
+        a.AUTHOR_ID,
+        a.NAME,
+        a.INSTITUTION,
+        a.DEPARTMENT,
+        a.EMAIL,
+        a.ADDRESS,
+        a.HOMEPAGE,
+        b.BOOK_ID,
+        b.TITLE,
+        b.YEAR
+      FROM AUTHORS a
+      LEFT JOIN BOOKS b ON a.AUTHOR_ID = b.AUTHOR_ID
+      WHERE UPPER(a.NAME) = UPPER(:a)`,
       { a: author },
     );
     res.json(result.rows);
@@ -81,7 +92,6 @@ app.get(endpoints.searchAuthor, async (req, res) => {
     }
   }
 });
-
 app.post(endpoints.addAuthor, async (req, res) => {
   let conn;
   const { id, name, institution, dept, homepage, email, address } = req.body;
@@ -122,7 +132,6 @@ app.post(endpoints.addAuthor, async (req, res) => {
     }
   }
 });
-
 app.post(endpoints.addBook, async (req, res) => {
   let conn;
   const { authorId, title, year, genreId } = req.body;
@@ -132,7 +141,6 @@ app.post(endpoints.addBook, async (req, res) => {
   try {
     conn = await oracledb.getConnection(dbConfig);
 
-    // Call add_book procedure
     await conn.execute(
       `BEGIN add_book(:title, :authorId, :genreId, :year); END;`,
       {
@@ -141,40 +149,34 @@ app.post(endpoints.addBook, async (req, res) => {
         genreId: genreId ? Number(genreId) : null,
         year: year ? Number(year) : null,
       },
+      { autoCommit: false }, // don't auto-commit, let the procedure do it
+    );
+
+    const bookResult = await conn.execute(
+      `SELECT BOOK_ID FROM BOOKS 
+       WHERE TITLE = :title AND AUTHOR_ID = :authorId 
+       ORDER BY BOOK_ID DESC FETCH FIRST 1 ROW ONLY`,
+      { title, authorId: Number(authorId) },
+    );
+
+    if (bookResult.rows.length === 0) {
+      return res
+        .status(500)
+        .json({ error: "Book was inserted but could not be retrieved." });
+    }
+
+    const bookId = bookResult.rows[0][0];
+
+    await conn.execute(
+      `BEGIN link_author_book(:authorId, :bookId); END;`,
+      { authorId: Number(authorId), bookId },
       { autoCommit: true },
     );
 
-    // Query to get the inserted book_id
-    const bookResult = await conn.execute(
-      `SELECT BOOK_ID FROM BOOKS WHERE TITLE = :title AND AUTHOR_ID = :authorId ORDER BY BOOK_ID DESC FETCH FIRST 1 ROW ONLY`,
-      {
-        title: title,
-        authorId: Number(authorId),
-      },
-    );
-
-    if (bookResult.rows.length > 0) {
-      const bookId = bookResult.rows[0][0];
-
-      // Call link_author_book procedure
-      await conn.execute(
-        `BEGIN link_author_book(:authorId, :bookId); END;`,
-        {
-          authorId: Number(authorId),
-          bookId: bookId,
-        },
-        { autoCommit: true },
-      );
-
-      res.json({ message: "Book added and linked to author." });
-    } else {
-      res
-        .status(500)
-        .json({ error: "Book was added but could not retrieve the ID." });
-    }
+    res.json({ message: "Book added and linked to author." });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: e.message }); // now you'll see the real Oracle error
   } finally {
     if (conn) {
       try {
@@ -330,6 +332,61 @@ app.delete(`${endpoints.issuedBooks}/:id`, async (req, res) => {
       { autoCommit: true },
     );
     res.json({ message: "Book returned successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  } finally {
+    if (conn) {
+      try {
+        await conn.close();
+      } catch (e) {
+        console.error("Error closing connection:", e);
+      }
+    }
+  }
+});
+
+app.post(endpoints.addGenre, async (req, res) => {
+  let conn;
+  const { genreName, bookId } = req.body; // <-- now also accepts bookId
+
+  if (!genreName || !bookId) {
+    return res
+      .status(400)
+      .json({ error: "Genre name and Book ID are required." });
+  }
+
+  try {
+    conn = await oracledb.getConnection(dbConfig);
+    await conn.execute(
+      `BEGIN ADD_GENRE(:genreName, :bookId); END;`,
+      {
+        genreName: genreName,
+        bookId: Number(bookId), // <-- passed to the procedure
+      },
+      { autoCommit: true },
+    );
+    res.json({ message: "Genre added/linked successfully." });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  } finally {
+    if (conn) {
+      try {
+        await conn.close();
+      } catch (closeErr) {
+        console.error(closeErr);
+      }
+    }
+  }
+});
+
+app.get(endpoints.readGenre, async (req, res) => {
+  let conn;
+  try {
+    conn = await oracledb.getConnection(dbConfig);
+    const result = await conn.execute(`SELECT * FROM genre`);
+    res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

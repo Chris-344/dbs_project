@@ -3,38 +3,30 @@ import { useState } from "react";
 import NavigationBar from "./components/NavigationBar";
 import { endpoint } from "../util/util";
 
-function AddBook() {
+function AddGenre() {
   const [formData, setFormData] = useState({
-    authorId: "",
-    title: "",
-    year: "",
-    genreId: "",  // was "source", didn't match what backend expects
+    bookId: "",
+    genreName: "",
   });
 
   const fields = [
-    { id: "authorId", label: "Author ID", placeholder: "Enter author ID", type: "number" },
-    { id: "title", label: "Title", placeholder: "Enter publication title" },
-    { id: "year", label: "Year", placeholder: "Enter publication year", type: "number" },
-    { id: "genreId", label: "Genre ID", placeholder: "Enter genre ID (optional)" },
+    { id: "bookId", label: "Book ID", placeholder: "Enter Book ID" },
+    { id: "genreName", label: "Genre Name", placeholder: "Enter Genre Name" }, 
   ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post(endpoint.addBook, {
-        authorId: formData.authorId,
-        title: formData.title,
-        year: formData.year || null,
-        genreId: formData.genreId || null,  // send null if empty
+      await axios.post(endpoint.addGenre, {
+        bookId: formData.bookId, // now sent to backend
+        genreName: formData.genreName,
       });
     } catch (err) {
       console.error(err);
     } finally {
       setFormData({
-        authorId: "",
-        title: "",
-        year: "",
-        genreId: "",
+        bookId: "",
+        genreName: "",
       });
     }
   };
@@ -44,7 +36,7 @@ function AddBook() {
       <NavigationBar />
 
       <div className="form-page">
-        <div className="form-heading">Add Book</div>
+        <div className="form-heading">Add Genre</div>
 
         <div className="form-card">
           <form onSubmit={handleSubmit}>
@@ -52,7 +44,7 @@ function AddBook() {
               <div className="form-group" key={field.id}>
                 <label htmlFor={field.id}>{field.label}</label>
                 <input
-                  type={field.type || "text"}
+                  type="text"
                   id={field.id}
                   value={formData[field.id as keyof typeof formData]}
                   onChange={(e) =>
@@ -61,14 +53,6 @@ function AddBook() {
                       [field.id]: e.target.value,
                     }))
                   }
-                  onKeyDown={(e) => {
-                    if (field.type === "number") {
-                      const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
-                      if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
-                        e.preventDefault();
-                      }
-                    }
-                  }}
                   placeholder={field.placeholder}
                 />
               </div>
@@ -85,4 +69,4 @@ function AddBook() {
   );
 }
 
-export default AddBook;
+export default AddGenre; // fixed export name too

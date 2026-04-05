@@ -13,4 +13,7 @@ export const endpoint = {
   readStudent: `http://localhost:5000/api/readStudent`,
 
   issueHistory: `http://localhost:5000/api/issuedHistory`,
+  
+  addGenre: `http://localhost:5000/api/addGenre`,
+  readGenre: `http://localhost:5000/api/readGenre`,
 };
