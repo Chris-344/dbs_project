@@ -31,7 +31,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        RAISE;  -- re-raise so Node sees the actual error
+        RAISE;  
 END add_book;
 /
 -- Procedure to add a new student

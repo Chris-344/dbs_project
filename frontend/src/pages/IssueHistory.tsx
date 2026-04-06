@@ -25,7 +25,7 @@ function IssueHistory() {
     fetchData();
   }, []);
 
-  const columns = ["ID", "Name", "Institution", "issue date", "return date"];
+  const columns = ["ID", "Book Id", "Institution", "issue date", "return date"];
   return (
     <>
       <NavigationBar />

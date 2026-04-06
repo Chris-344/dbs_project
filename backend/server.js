@@ -176,7 +176,7 @@ app.post(endpoints.addBook, async (req, res) => {
     res.json({ message: "Book added and linked to author." });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ error: e.message }); // now you'll see the real Oracle error
+    res.status(500).json({ error: e.message });
   } finally {
     if (conn) {
       try {

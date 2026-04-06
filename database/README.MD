@@ -1,61 +1,35 @@
-# Sample data
+# Login to admin
+sqlplus sys/your_admin_password@localhost:1521/XEPDB1 as sysdba
 
--- Authors
-INSERT INTO AUTHORS (NAME, INSTITUTION, DEPARTMENT, EMAIL, HOMEPAGE, ADDRESS)
-VALUES ('George Orwell', 'Secker & Warburg', 'Fiction', 'gorwell@pub.com', 'georgeorwell.org', 'London, UK');
+## Create the user
+CREATE USER react_user_final IDENTIFIED BY qwerty;
 
-INSERT INTO AUTHORS (NAME, INSTITUTION, DEPARTMENT, EMAIL, HOMEPAGE, ADDRESS)
-VALUES ('J.K. Rowling', 'Bloomsbury', 'Fantasy', 'jkr@bloomsbury.com', 'jkrowling.com', 'Edinburgh, UK');
+## Grant permissions to connect and create objects
+GRANT CONNECT, RESOURCE TO react_user_final;
 
-INSERT INTO AUTHORS (NAME, INSTITUTION, DEPARTMENT, EMAIL, HOMEPAGE, ADDRESS)
-VALUES ('Yuval Noah Harari', 'Hebrew University', 'History', 'harari@huji.ac.il', 'ynharari.com', 'Jerusalem, IL');
+## Allow the user to actually store data in the tablespace
+ALTER USER react_user_final QUOTA UNLIMITED ON USERS;
 
-COMMIT;
+## (Optional) Grant specific table rights
+GRANT CREATE SESSION, CREATE TABLE TO react_user_final;
 
--- Students
-INSERT INTO STUDENTS (STUDENT_ID, NAME, EMAIL, DEPARTMENT)
-VALUES (1001, 'Alice Mendes', 'alice@uni.edu', 'Computer Science');
+## login to the new user
+sqlplus react_user_final/qwerty@localhost:1521/XEPDB1
 
-INSERT INTO STUDENTS (STUDENT_ID, NAME, EMAIL, DEPARTMENT)
-VALUES (1002, 'Bob Tanner', 'bob@uni.edu', 'Literature');
+# remove a user 
+ Run this in SQL*Plus or SQL Developer as SYSTEM or SYS:
+DROP USER username CASCADE;
 
-INSERT INTO STUDENTS (STUDENT_ID, NAME, EMAIL, DEPARTMENT)
-VALUES (1003, 'Carol Singh', 'carol@uni.edu', 'History');
+CASCADE is important — it drops all objects (tables, procedures, sequences) owned by that user along with it. Without it, Oracle will throw an error if the user has any objects.
 
-COMMIT;
+To see all users first:
+sql
 
--- Genres (inserting directly first so books can reference them)
-INSERT INTO GENRES (GENRE_NAME) VALUES ('Dystopian');
-INSERT INTO GENRES (GENRE_NAME) VALUES ('Fantasy');
-INSERT INTO GENRES (GENRE_NAME) VALUES ('Non-Fiction');
+SELECT USERNAME FROM DBA_USERS ORDER BY USERNAME;
 
-COMMIT;
+To see only the non-system users (the ones you likely created):
+sql
 
--- Books (assumes authors got IDs 1, 2, 3 in order; adjust if yours differ)
-BEGIN add_book('1984',                                      1, 1, 1949); END;
-/
-BEGIN add_book('Animal Farm',                               1, 1, 1945); END;
-/
-BEGIN add_book('Harry Potter and the Philosophers Stone',   2, 2, 1997); END;
-/
-BEGIN add_book('Sapiens',                                   3, 3, 2011); END;
-/
-
--- Link authors to books via the junction table
--- (assumes books got IDs 1, 2, 3, 4 in order)
-BEGIN link_author_book(1, 1); END;
-/
-BEGIN link_author_book(1, 2); END;
-/
-BEGIN link_author_book(2, 3); END;
-/
-BEGIN link_author_book(3, 4); END;
-/
-
--- Issue books to students
-BEGIN issue_book(1, 1001, DATE '2026-04-01', NULL); END;
-/
-BEGIN issue_book(3, 1002, DATE '2026-04-02', NULL); END;
-/
-BEGIN issue_book(4, 1003, DATE '2026-04-03', NULL); END;
-/
+SELECT USERNAME FROM DBA_USERS 
+WHERE ACCOUNT_STATUS = 'OPEN'
+AND USERNAME NOT IN ('SYS','SYSTEM','DBSNMP','APPQOSSYS','CTXSYS','XDB','ANONYMOUS');
